@@ -1,0 +1,155 @@
+/* ── Reset & base ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f5f4f0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Layout ───────────────────────────────────── */
+.app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e8e6e0;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+
+/* ── Mode badge ───────────────────────────────── */
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 1.5rem;
+}
+.badge-focus { background: #eeedfe; color: #3c3489; }
+.badge-break { background: #e1f5ee; color: #085041; }
+.badge-done  { background: #eaf3de; color: #27500a; }
+
+/* ── Timer ────────────────────────────────────── */
+.timer {
+  font-size: 76px;
+  font-weight: 500;
+  letter-spacing: -3px;
+  color: #1a1a1a;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.complete-msg {
+  font-size: 28px;
+  font-weight: 500;
+  color: #1a1a1a;
+  line-height: 1;
+  padding: 1rem 0;
+}
+
+/* ── Sub-label ────────────────────────────────── */
+.sub-label {
+  font-size: 13px;
+  color: #888;
+  margin: 0.5rem 0 1.75rem;
+  min-height: 20px;
+}
+
+/* ── Progress bar ─────────────────────────────── */
+.progress-track {
+  background: #f0ede8;
+  border-radius: 999px;
+  height: 4px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 4px;
+  border-radius: 999px;
+  transition: width 0.8s linear;
+}
+.bar-purple { background: #534ab7; }
+.bar-green  { background: #1d9e75; }
+
+/* ── Controls ─────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary { color: #fff; }
+.btn-purple  { background: #534ab7; }
+.btn-purple:hover { background: #3c3489; }
+.btn-green   { background: #1d9e75; }
+.btn-green:hover  { background: #0f6e56; }
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #ddd;
+  color: #666;
+}
+.btn-secondary:hover { background: #f5f4f0; }
+
+.btn-ghost {
+  background: transparent;
+  color: #999;
+  font-size: 13px;
+  padding: 10px 12px;
+}
+.btn-ghost:hover { color: #555; }
+
+/* ── Session dots ─────────────────────────────── */
+.sessions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f0ede8;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid #ddd;
+  transition: all 0.3s;
+}
+.dot-filled {
+  background: #534ab7;
+  border-color: #534ab7;
+}
+
+.session-label {
+  font-size: 12px;
+  color: #aaa;
+  margin-left: 4px;
+}
