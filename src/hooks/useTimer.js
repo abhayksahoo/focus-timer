@@ -9,6 +9,7 @@ export function useTimer() {
 
   const [timeLeft, setTimeLeft] = useState(FOCUS_SECONDS);
   const [sessions, setSessions] = useState(0);
+  const [dailyGoal, setDailyGoal] = useState(4);
 
   // The countdown engine — runs only when timer is active
   useEffect(() => {
@@ -48,6 +49,12 @@ export function useTimer() {
     if (saved[today]) setSessions(saved[today]);
   }, []);
 
+  // Load daily goal from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('focusGoal');
+    if (saved) setDailyGoal(parseInt(saved, 10));
+  }, []);
+
   // --- Actions ---
   const start = useCallback(() => setPhase('running'), []);
   const pause = useCallback(() => setPhase('paused'), []);
@@ -83,6 +90,8 @@ export function useTimer() {
     timeLeft,
     sessions,
     progress,
+    dailyGoal,
+    setDailyGoal,
     start,
     pause,
     resume,
