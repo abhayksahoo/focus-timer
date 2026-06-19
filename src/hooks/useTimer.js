@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const FOCUS_SECONDS = 2 * 60;  // 1500
+const FOCUS_SECONDS = 25 * 60;  // 1500
 const BREAK_SECONDS = 5 * 60;   // 300
 
 export function useTimer() {
