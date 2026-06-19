@@ -250,3 +250,42 @@ body {
 .picker-start {
   width: 100%;
 }
+
+/* ── Card top row & streak chip ───────────────── */
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.streak-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #fac775;
+  background: #fff8e6;
+  color: #854f0b;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.streak-chip--risk {
+  border-color: #f0997b;
+  background: #faece7;
+  color: #993c1d;
+}
+
+/* ── Goal complete state ──────────────────────── */
+.goal-done {
+  padding: 0.25rem 0 0.5rem;
+  text-align: center;
+}
+
+.goal-done-msg {
+  font-size: 13px;
+  color: #888;
+}

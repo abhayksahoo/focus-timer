@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const FOCUS_SECONDS = 25 * 60;  // 1500
+const FOCUS_SECONDS = 2 * 60;  // 1500
 const BREAK_SECONDS = 5 * 60;   // 300
 
 export function useTimer() {
@@ -10,6 +10,8 @@ export function useTimer() {
   const [timeLeft, setTimeLeft] = useState(FOCUS_SECONDS);
   const [sessions, setSessions] = useState(0);
   const [dailyGoal, setDailyGoal] = useState(4);
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [longestStreak, setLongestStreak] = useState(0);
 
   // The countdown engine — runs only when timer is active
   useEffect(() => {
@@ -55,6 +57,33 @@ export function useTimer() {
     if (saved) setDailyGoal(parseInt(saved, 10));
   }, []);
 
+  // Load streak from localStorage on mount
+  useEffect(() => {
+    const raw = JSON.parse(localStorage.getItem('focusStreak') || 'null');
+    if (raw) {
+      setCurrentStreak(raw.currentStreak || 0);
+      setLongestStreak(raw.longestStreak || 0);
+    }
+  }, []);
+
+  // Update streak on first session completion of each day
+  useEffect(() => {
+    if (phase !== 'sessionComplete') return;
+    const today = new Date().toDateString();
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    const raw = JSON.parse(
+      localStorage.getItem('focusStreak') ||
+      '{"currentStreak":0,"lastSessionDate":"","longestStreak":0}'
+    );
+    if (raw.lastSessionDate === today) return; // already counted today
+    const newStreak = raw.lastSessionDate === yesterday ? raw.currentStreak + 1 : 1;
+    const newLongest = Math.max(newStreak, raw.longestStreak);
+    const updated = { currentStreak: newStreak, lastSessionDate: today, longestStreak: newLongest };
+    localStorage.setItem('focusStreak', JSON.stringify(updated));
+    setCurrentStreak(newStreak);
+    setLongestStreak(newLongest);
+  }, [phase]);
+
   // --- Actions ---
   const start = useCallback(() => setPhase('running'), []);
   const pause = useCallback(() => setPhase('paused'), []);
@@ -92,6 +121,8 @@ export function useTimer() {
     progress,
     dailyGoal,
     setDailyGoal,
+    currentStreak,
+    longestStreak,
     start,
     pause,
     resume,

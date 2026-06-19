@@ -11,6 +11,7 @@ function formatTime(seconds) {
 export default function App() {
   const {
     phase, timeLeft, sessions, progress, dailyGoal, setDailyGoal,
+    currentStreak,
     start, pause, resume, reset,
     startBreak, skipBreak, startNext,
   } = useTimer();
@@ -33,26 +34,31 @@ export default function App() {
   const isBreak = ['sessionComplete', 'breakIdle', 'breakRunning', 'breakComplete'].includes(phase);
   const showReset = phase === 'running' || phase === 'paused';
   const showSkip = ['sessionComplete', 'breakIdle', 'breakRunning', 'breakComplete'].includes(phase);
+  const goalReached = sessions > 0 && sessions >= dailyGoal;
 
-  const modeBadge = {
-    idle:            { label: 'Focus',        cls: 'badge-focus' },
-    running:         { label: 'Focus',        cls: 'badge-focus' },
-    paused:          { label: 'Focus',        cls: 'badge-focus' },
-    sessionComplete: { label: 'Session done', cls: 'badge-done'  },
-    breakIdle:       { label: 'Break',        cls: 'badge-break' },
-    breakRunning:    { label: 'Break',        cls: 'badge-break' },
-    breakComplete:   { label: 'Break done',   cls: 'badge-done'  },
-  }[phase];
+  const modeBadge = (phase === 'idle' && goalReached)
+    ? { label: 'Goal reached', cls: 'badge-done' }
+    : {
+      idle:            { label: 'Focus',        cls: 'badge-focus' },
+      running:         { label: 'Focus',        cls: 'badge-focus' },
+      paused:          { label: 'Focus',        cls: 'badge-focus' },
+      sessionComplete: { label: 'Session done', cls: 'badge-done'  },
+      breakIdle:       { label: 'Break',        cls: 'badge-break' },
+      breakRunning:    { label: 'Break',        cls: 'badge-break' },
+      breakComplete:   { label: 'Break done',   cls: 'badge-done'  },
+    }[phase];
 
-  const subLabel = {
-    idle:            'Ready when you are',
-    running:         'Stay locked in',
-    paused:          'Paused — clock is stopped',
-    sessionComplete: 'Take a breath',
-    breakIdle:       'Step away from the screen',
-    breakRunning:    'Break running',
-    breakComplete:   'Break complete',
-  }[phase];
+  const subLabel = (phase === 'idle' && goalReached)
+    ? `All ${dailyGoal} sessions done for today. Rest up.`
+    : {
+      idle:            'Ready when you are',
+      running:         'Stay locked in',
+      paused:          'Paused — clock is stopped',
+      sessionComplete: 'Take a breath',
+      breakIdle:       'Step away from the screen',
+      breakRunning:    'Break running',
+      breakComplete:   'Break complete',
+    }[phase];
 
   const primaryBtn = {
     idle:            { label: 'Start focus',  action: start,      cls: 'btn-purple' },
@@ -61,10 +67,11 @@ export default function App() {
     sessionComplete: { label: 'Start break',  action: startBreak, cls: 'btn-green'  },
     breakIdle:       { label: 'Start break',  action: startBreak, cls: 'btn-green'  },
     breakRunning:    { label: 'Pause',        action: pause,      cls: 'btn-green'  },
-    breakComplete:   { label: 'Next session', action: startNext,  cls: 'btn-purple' },
+    breakComplete:   { label: goalReached ? 'Done for today' : 'Next session', action: startNext, cls: 'btn-purple' },
   }[phase];
 
   const ringOffset = Math.round(377 * (1 - Math.min(sessions / dailyGoal, 1)));
+  const streakAtRisk = sessions === 0 && currentStreak > 0 && new Date().getHours() >= 18;
 
   if (showGoalPicker) {
     return (
@@ -97,6 +104,12 @@ export default function App() {
   return (
     <div className="app">
       <div className="card">
+        <div className="card-top-row">
+          <div className={`streak-chip${streakAtRisk ? ' streak-chip--risk' : ''}`}>
+            🔥 {currentStreak} day streak
+          </div>
+          <div />
+        </div>
         <span className={`badge ${modeBadge.cls}`}>{modeBadge.label}</span>
 
         <div className="ring-wrap">
@@ -138,17 +151,23 @@ export default function App() {
           />
         </div>
 
-        <div className="controls">
-          {showReset && (
-            <button className="btn btn-secondary" onClick={reset}>↺ Reset</button>
-          )}
-          <button className={`btn btn-primary ${primaryBtn.cls}`} onClick={primaryBtn.action}>
-            {primaryBtn.label}
-          </button>
-          {showSkip && (
-            <button className="btn btn-ghost" onClick={skipBreak}>Skip break</button>
-          )}
-        </div>
+        {phase === 'idle' && goalReached ? (
+          <div className="goal-done">
+            <p className="goal-done-msg">You hit your goal for today. See you tomorrow.</p>
+          </div>
+        ) : (
+          <div className="controls">
+            {showReset && (
+              <button className="btn btn-secondary" onClick={reset}>↺ Reset</button>
+            )}
+            <button className={`btn btn-primary ${primaryBtn.cls}`} onClick={primaryBtn.action}>
+              {primaryBtn.label}
+            </button>
+            {showSkip && (
+              <button className="btn btn-ghost" onClick={skipBreak}>Skip break</button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
