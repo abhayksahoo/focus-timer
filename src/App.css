@@ -153,3 +153,139 @@ body {
   color: #aaa;
   margin-left: 4px;
 }
+
+/* ── Progress ring ────────────────────────────── */
+.ring-wrap {
+  position: relative;
+  width: 144px;
+  height: 144px;
+  margin: 0 auto 1.5rem;
+}
+
+.ring-centre {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.ring-main {
+  font-size: 26px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: #1a1a1a;
+}
+
+.ring-sub {
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* ── Goal picker ──────────────────────────────── */
+.picker-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.picker-heading {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.picker-sub {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 1.75rem;
+  line-height: 1.5;
+}
+
+.picker-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.picker-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  background: transparent;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  transition: background 0.15s;
+}
+.picker-btn:hover { background: #f5f4f0; }
+
+.picker-number {
+  font-size: 52px;
+  font-weight: 500;
+  width: 64px;
+  text-align: center;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: #1a1a1a;
+}
+
+.picker-hint {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 1.75rem;
+}
+
+.picker-start {
+  width: 100%;
+}
+
+/* ── Card top row & streak chip ───────────────── */
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.streak-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #fac775;
+  background: #fff8e6;
+  color: #854f0b;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.streak-chip--risk {
+  border-color: #f0997b;
+  background: #faece7;
+  color: #993c1d;
+}
+
+/* ── Goal complete state ──────────────────────── */
+.goal-done {
+  padding: 0.25rem 0 0.5rem;
+  text-align: center;
+}
+
+.goal-done-msg {
+  font-size: 13px;
+  color: #888;
+}
